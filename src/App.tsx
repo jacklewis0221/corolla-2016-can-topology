@@ -50,7 +50,8 @@ export default function App() {
       link.lab != null
         ? document.getElementById('frames')
         : (document.querySelector(`[data-msg-row="${link.msg}"]`) ?? document.getElementById('messages'));
-    const go = () => target()?.scrollIntoView({ block: link.lab != null ? 'start' : 'center' });
+    // 'instant' overrides the page's smooth scrolling: a deep link should land on the frame, not travel there.
+    const go = () => target()?.scrollIntoView({ block: link.lab != null ? 'start' : 'center', behavior: 'instant' });
     let user = false;
     const mark = () => (user = true);
     const evs = ['wheel', 'touchstart', 'keydown', 'pointerdown'] as const;
