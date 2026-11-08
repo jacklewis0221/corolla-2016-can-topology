@@ -27,7 +27,8 @@ export function Logo() {
 export function TopNav({ theme, onTheme }: { theme: 'dark' | 'light'; onTheme: () => void }) {
   const [active, setActive] = useState<string>('');
   useEffect(() => {
-    const els = LINKS.map((l) => document.getElementById(l.id)).filter(Boolean) as HTMLElement[];
+    // 'service' is observed but has no section link, so nothing is highlighted while the service-bay section is on screen.
+    const els = [...LINKS.map((l) => l.id), 'service'].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     const io = new IntersectionObserver(
       (ents) => {
         const vis = ents.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];

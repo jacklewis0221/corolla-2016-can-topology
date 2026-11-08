@@ -124,8 +124,8 @@ export function ServiceTeaser() {
               width={1680}
               height={1050}
               alt=""
-              loading="lazy"
               decoding="async"
+              fetchPriority="low"
             />
             <img
               className="svc-shot__img svc-shot__img--light"
@@ -133,8 +133,8 @@ export function ServiceTeaser() {
               width={1680}
               height={1050}
               alt=""
-              loading="lazy"
               decoding="async"
+              fetchPriority="low"
             />
           </a>
           <figcaption className="sr-only">
