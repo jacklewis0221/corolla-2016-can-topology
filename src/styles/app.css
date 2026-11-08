@@ -3678,3 +3678,344 @@ main:focus {
     display: none;
   }
 }
+
+/* ───────────────────────── 3D car view ───────────────────────── */
+.stage--3d {
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 64%, color-mix(in oklab, var(--accent) 7%, var(--bg-2)) 0%, transparent 70%),
+    var(--bg-2);
+}
+.car3d {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.6;
+  max-height: calc(100vh - 190px);
+  min-height: 480px;
+  animation: car3d-in 0.5s var(--ease-out);
+}
+@keyframes car3d-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.car3d--loading,
+.car3d--failed {
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+.car3d__viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  outline: none;
+  touch-action: none;
+}
+.car3d__viewport:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.car3d__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+.car3d__canvas:active {
+  cursor: grabbing;
+}
+.car3d__leaders {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.car3d__leaders line {
+  stroke: var(--dc);
+  stroke-width: 1.5;
+  stroke-opacity: 0.8;
+  opacity: 0;
+}
+.car3d__leaders line.is-on {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+.car3d__labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.l3d {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 30px;
+  padding: 4px 10px 4px 9px;
+  background: color-mix(in oklab, var(--surface) 90%, transparent);
+  border: 1px solid var(--border-strong);
+  border-radius: 9px;
+  box-shadow: 0 6px 18px -10px rgba(0, 0, 0, 0.6);
+  color: var(--text);
+  font: 700 13.5px/1.1 var(--font-body);
+  white-space: nowrap;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition:
+    opacity 0.2s,
+    border-color 0.2s,
+    background-color 0.2s;
+  will-change: transform;
+}
+/* a larger invisible hit area for touch */
+.l3d::before {
+  content: '';
+  position: absolute;
+  inset: -7px -3px;
+}
+.l3d__dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--dc);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--dc) 24%, transparent);
+}
+.l3d__ohm,
+.l3d__dtc,
+.l3d__off {
+  padding: 3px 6px;
+  border-radius: 5px;
+  font: 600 12px/1 var(--font-mono);
+}
+.l3d__ohm {
+  color: var(--warn-ink);
+  background: var(--accent-soft);
+}
+.l3d__dtc {
+  color: var(--danger-ink);
+  background: var(--danger-soft);
+  border: 1px solid color-mix(in oklab, var(--danger) 45%, transparent);
+}
+.l3d__off {
+  color: var(--danger-ink);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.l3d:hover,
+.l3d.is-hover {
+  border-color: var(--dc);
+  background: var(--surface-2);
+}
+.l3d.is-selected {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 2px var(--accent-soft),
+    0 8px 24px -10px rgba(0, 0, 0, 0.6);
+}
+.l3d.is-dead {
+  border-color: var(--danger);
+}
+.l3d--jc {
+  min-height: 26px;
+  color: var(--text-muted);
+  font: 600 12px/1 var(--font-mono);
+}
+.l3d:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.car3d__tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--text-faint);
+  font: 600 12px/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+.car3d__tip {
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.car3d__tip.is-on {
+  opacity: 1;
+}
+.car3d__hint {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  max-width: calc(100% - 32px);
+  margin: 0;
+  color: var(--text-faint);
+  font: 500 12.5px/1.35 var(--font-mono);
+  pointer-events: none;
+}
+.car3d__hint-touch {
+  display: none;
+}
+@media (hover: none) {
+  .car3d__hint-mouse {
+    display: none;
+  }
+  .car3d__hint-touch {
+    display: inline;
+  }
+}
+.car3d__bar {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  right: 14px;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: fit-content;
+  max-width: calc(100% - 28px);
+  margin: 0 auto;
+  padding: 5px;
+  background: color-mix(in oklab, var(--surface) 92%, transparent);
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+/* when the details drawer is open, the bar sits beside it (drawer: 450px + 12px inset) */
+.car3d__bar--left {
+  right: auto;
+  margin: 0;
+  max-width: calc(100% - 488px);
+}
+.car3d__bar--right {
+  left: auto;
+  margin: 0;
+  max-width: calc(100% - 488px);
+}
+.car3d__views {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.car3d__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-muted);
+  font: 600 14px/1 var(--font-body);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    background-color 0.15s;
+}
+.car3d__btn:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+.car3d__btn.is-on {
+  background: var(--surface-3);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--border-strong);
+}
+.car3d__btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+.car3d__btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.car3d__sep {
+  width: 1px;
+  height: 26px;
+  margin: 0 4px;
+  background: var(--border-strong);
+}
+.car3d__fail {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  max-width: 46ch;
+  padding: 24px;
+  text-align: center;
+}
+.car3d__fail-sub {
+  color: var(--text-faint);
+  font-size: 14px;
+}
+.stage__note {
+  margin-top: 10px;
+  color: var(--text-faint);
+  font-size: 13px;
+}
+@media (max-width: 1500px) {
+  .car3d__btn {
+    padding: 0 10px;
+  }
+}
+@media (min-width: 721px) and (max-width: 1100px) {
+  .car3d__bar--left .car3d__btn-text,
+  .car3d__bar--right .car3d__btn-text {
+    display: none;
+  }
+  .car3d__bar--left .car3d__btn--icon,
+  .car3d__bar--right .car3d__btn--icon {
+    min-width: 44px;
+    justify-content: center;
+  }
+}
+@media (max-width: 720px) {
+  .car3d {
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: auto;
+    min-height: 0;
+    max-height: none;
+  }
+  .car3d__viewport {
+    position: relative;
+    inset: auto;
+    height: min(460px, 62vh);
+  }
+  .car3d__bar,
+  .car3d__bar--left,
+  .car3d__bar--right {
+    position: static;
+    width: auto;
+    max-width: none;
+    margin: 0 10px 10px;
+  }
+  .car3d__hint {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .car3d {
+    animation: none;
+  }
+}

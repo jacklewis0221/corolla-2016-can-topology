@@ -77,7 +77,7 @@ const GROUPS: { kind: Source['kind']; title: string; blurb: string }[] = [
   },
   { kind: 'community', title: 'Open-source CAN databases', blurb: 'comma.ai’s opendbc and openpilot, built from logged Toyota traffic.' },
   { kind: 'reference', title: 'Protocol references', blurb: 'Physical layer and LIN background.' },
-  { kind: 'press', title: 'Model-year and trim details', blurb: 'What a 2016 LE came with.' },
+  { kind: 'press', title: 'Model-year and trim details', blurb: 'What a 2016 LE came with, and its exterior dimensions.' },
 ];
 
 export function Sources() {
@@ -102,6 +102,11 @@ export function Sources() {
                 prefixes or from which ECU owns the source switch — badges show which.
               </li>
               <li>The default build is a base LE (key start, Entune Audio). Presets add the Driver Convenience Package and the LE Eco engine.</li>
+              <li>
+                The 3D car is built to the LE’s published length, width, height, wheelbase, track and tire size; its surface is a simplified
+                sedan shape, not a scan. The front/rear overhang split is estimated, module positions are approximate, and wires follow an
+                illustrative harness route.
+              </li>
               <li>Animations are slowed down roughly ten-thousand-fold: a real 8-byte frame lasts about a quarter of a millisecond.</li>
               <li>This is an independent educational project, not affiliated with or endorsed by Toyota.</li>
             </ul>

@@ -483,6 +483,18 @@ export const SOURCES = {
     url: 'https://www.edmunds.com/toyota/corolla/2016/review/',
     kind: 'press',
   },
+  brochure: {
+    title: '2016 Corolla brochure — specifications (dimensions, track, wheels and tires; used for the 3D body)',
+    publisher: 'Toyota, via auto-brochures.com',
+    url: 'https://www.auto-brochures.com/makes/Toyota/Corolla/Toyota_US%20Corolla_2016.pdf',
+    kind: 'press',
+  },
+  edmundsSpecs: {
+    title: '2016 Toyota Corolla LE specs & features (dimension cross-check)',
+    publisher: 'Edmunds',
+    url: 'https://www.edmunds.com/toyota/corolla/2016/st-200746659/features-specs/',
+    kind: 'press',
+  },
 } satisfies Record<string, Source>;
 
 export type SourceKey = keyof typeof SOURCES;

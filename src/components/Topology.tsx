@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Activity, Car, Network } from 'lucide-react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Activity, Box, Car, Network } from 'lucide-react';
 import { Diagram } from './Diagram';
 import { Inspector, silenceReport } from './Inspector';
 import { Legend } from './Legend';
@@ -12,10 +12,14 @@ import { isPresent, NODE_BY_ID } from '../data/nodes';
 import { EDGE_BY_ID } from '../data/edges';
 
 type PresetKey = keyof typeof PRESETS;
+type View = 'schematic' | 'car' | '3d';
+
+const loadCar3D = () => import('./Car3D');
+const Car3D = lazy(loadCar3D);
 
 export function Topology() {
   const reduced = usePrefersReducedMotion();
-  const [view, setView] = useState<'schematic' | 'car'>('schematic');
+  const [view, setView] = useState<View>('schematic');
   const [preset, setPreset] = useState<PresetKey>('base');
   const [layers, setLayers] = useState<Layers>(ALL_LAYERS);
   const [selected, setSelected] = useState<string | null>(null);
@@ -23,7 +27,8 @@ export function Topology() {
   const [silent, setSilent] = useState<string | null>(null);
   const [live, setLive] = useState(!reduced);
   const opts = PRESETS[preset].opts;
-  const t = useMorph(view === 'car' ? 1 : 0, reduced);
+  const t = useMorph(view === 'schematic' ? 0 : 1, reduced);
+  const screenXRef = useRef<((id: string) => number | null) | null>(null);
   const traffic = useTraffic();
   const tRef = useRef(t);
   tRef.current = t;
@@ -76,11 +81,21 @@ export function Topology() {
 
   const report = useMemo(() => (silent ? silenceReport(silent, opts) : null), [silent, opts]);
 
+  // fetch the 3D view in the background once the page has settled
+  useEffect(() => {
+    const id = window.setTimeout(() => void loadCar3D(), 2500);
+    return () => window.clearTimeout(id);
+  }, []);
+
   // open the drawer on the side away from what you clicked, so it stays visible
   const lastSide = useRef<'left' | 'right'>('right');
   const side = useMemo(() => {
     const xOf = (id: string) => {
       const n = NODE_BY_ID[id];
+      if (view === '3d') {
+        const f = screenXRef.current?.(id);
+        return f === null || f === undefined ? 800 : f * 1600;
+      }
       return n ? (view === 'car' ? n.pos.p[0] : n.pos.s[0]) : 800;
     };
     let x: number | null = null;
@@ -116,7 +131,8 @@ export function Topology() {
           <p>
             One twisted pair — the CAN “V bus” — links {counts.onCan} control modules in this configuration. Gateways hang smaller LIN buses
             and serial lines off it, and hundreds of sensors and actuators are wired straight to the ECU that owns them. Click any module
-            to open it; hover a wire for its exact pins.
+            to open it; hover a wire for its exact pins. Switch to <b>3D car</b> to see the same network inside a to-scale Corolla you
+            can turn to any angle.
           </p>
         </SectionHead>
 
@@ -144,6 +160,15 @@ export function Topology() {
                       <Car size={15} aria-hidden="true" /> In the car
                     </>
                   ),
+                },
+                {
+                  value: '3d',
+                  label: (
+                    <>
+                      <Box size={15} aria-hidden="true" /> 3D car
+                    </>
+                  ),
+                  title: 'A to-scale 3D Corolla you can rotate, pan and zoom',
                 },
               ]}
             />
@@ -175,28 +200,56 @@ export function Topology() {
           </div>
         </div>
 
-        <div className="stage">
-          <div className="stage__scroll">
-            <Diagram
-              opts={opts}
-              layers={layers}
-              t={t}
-              selected={selected}
-              selectedEdge={selectedEdge}
-              silent={silent}
-              dtcBadges={report?.badges}
-              packets={traffic.packets}
-              pulses={traffic.pulses}
-              now={traffic.now}
-              pulseMs={traffic.pulseMs}
-              onSelectNode={selectNode}
-              onSelectEdge={selectEdge}
-              onBackground={close}
-              showIo={layers.wire}
-              title={`Network topology of a 2016 Corolla ${PRESETS[preset].label}, ${view === 'car' ? 'in-car positions' : 'schematic view'}`}
-              testId="topo"
-            />
-          </div>
+        <div className={`stage${view === '3d' ? ' stage--3d' : ''}`}>
+          {view === '3d' ? (
+            <Suspense
+              fallback={
+                <div className="car3d car3d--loading" role="status">
+                  <p>Building the 3D model…</p>
+                </div>
+              }
+            >
+              <Car3D
+                opts={opts}
+                layers={layers}
+                selected={selected}
+                selectedEdge={selectedEdge}
+                silent={silent}
+                dtcBadges={report?.badges}
+                packets={traffic.packets}
+                pulses={traffic.pulses}
+                pulseMs={traffic.pulseMs}
+                drawer={selected || selectedEdge ? side : null}
+                reduced={reduced}
+                onSelectNode={selectNode}
+                onSelectEdge={selectEdge}
+                onBackground={close}
+                screenXRef={screenXRef}
+              />
+            </Suspense>
+          ) : (
+            <div className="stage__scroll">
+              <Diagram
+                opts={opts}
+                layers={layers}
+                t={t}
+                selected={selected}
+                selectedEdge={selectedEdge}
+                silent={silent}
+                dtcBadges={report?.badges}
+                packets={traffic.packets}
+                pulses={traffic.pulses}
+                now={traffic.now}
+                pulseMs={traffic.pulseMs}
+                onSelectNode={selectNode}
+                onSelectEdge={selectEdge}
+                onBackground={close}
+                showIo={layers.wire}
+                title={`Network topology of a 2016 Corolla ${PRESETS[preset].label}, ${view === 'car' ? 'in-car positions' : 'schematic view'}`}
+                testId="topo"
+              />
+            </div>
+          )}
           <Inspector
             side={side}
             nodeId={selected}
@@ -219,7 +272,14 @@ export function Topology() {
             </div>
           )}
         </div>
-        <p className="stage__hint">Tip: on small screens, swipe sideways to pan the drawing.</p>
+        {view === '3d' ? (
+          <p className="stage__note">
+            The 3D body is built to the 2016 LE’s published dimensions; module positions follow Toyota’s parts-location drawings and are
+            approximate. Wires follow an illustrative harness route.
+          </p>
+        ) : (
+          <p className="stage__hint">Tip: on small screens, swipe sideways to pan the drawing.</p>
+        )}
         <Legend opts={opts} />
         <div className="kpis kpis--inline">
           <div>
