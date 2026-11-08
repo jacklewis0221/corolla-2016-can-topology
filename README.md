@@ -13,7 +13,7 @@ It is a static React site. There is no backend, no storage and no tracking — `
 | **Network** | Schematic of every module and data wire, morphing into an in-car view with positions from Toyota's parts-location drawings. Click a module for its role, connector pins, wire colors, wired I/O, CAN IDs it sends and listens for, and the DTCs others store if it goes silent. Unplug any module to see the fail-safe behavior and trouble codes across the car. Presets for the base LE, the LE Plus Driver Convenience Package (smart key, push-button start, sliding roof, navigation) and the LE Eco (Valvematic engine with its local CAN). |
 | **Scenarios** | Ten step-through stories — starting the engine, shifting into reverse, opening a door, A/C request, a skid, EPS assist, low tire pressure, the seat-belt reminder, a scan tool session and the LE Eco local bus — with animated frames on the right wires and the decoded payload for each step. |
 | **Frame lab** | Move a slider and watch the physical value become raw bits, Toyota's big-endian byte layout and checksum, a full CAN frame with CRC-15 and bit stuffing, and the CANH/CANL waveform. Includes an arbitration race between three real IDs and a LIN frame for comparison. |
-| **Messages** | Searchable dictionary of 80 CAN identifiers with Toyota frame names, senders (with the basis for each attribution), signal layouts and consumers. |
+| **Messages** | Searchable dictionary of 81 CAN identifiers with Toyota frame names, senders (with the basis for each attribution), signal layouts and consumers. |
 | **Diagnostics** | DLC3 pinout, scan-tool request/response addresses, an interactive resistance check across pins 6 and 14 for a healthy bus and seven wiring faults, and Toyota's fail-safe chart. |
 | **Sources** | Every Toyota document, community database and reference used, with links. |
 
@@ -23,15 +23,15 @@ It is a static React site. There is no backend, no storage and no tracking — `
   - New Car Features NM30N0U — how the multiplex, CAN and LIN systems and each body system work.
   - Electrical Wiring Diagram EM30N2U — connector pins, wire colors, junction connectors, part locations.
   - Repair Manual RM30N0U — CAN fail-safe chart, DTC tables, bus resistance checks, LIN DTCs.
-- comma.ai [opendbc](https://github.com/commaai/opendbc) and [openpilot](https://github.com/commaai/openpilot) — CAN IDs logged on an E170 Corolla, DBC signal layouts, Toyota checksum, diagnostic addresses.
+- comma.ai [opendbc](https://github.com/commaai/opendbc) and [openpilot](https://github.com/commaai/openpilot) — CAN IDs recorded on a 2017 Corolla (same platform), DBC signal layouts, Toyota checksum, diagnostic addresses.
 - Texas Instruments [SLOA101B](https://www.ti.com/lit/an/sloa101b/sloa101b.pdf) (CAN physical layer) and [CSS Electronics](https://www.csselectronics.com/pages/lin-bus-protocol-intro-basics) (LIN).
 - [Toyota newsroom](https://pressroom.toyota.com/2016-toyota-corolla-debut/) and [Edmunds](https://www.edmunds.com/toyota/corolla/2016/review/) for 2016 trim content.
 
 ## Assumptions and limits
 
-- **Model year.** Toyota's 2014–2015 E170 publications are used for the 2016 car; the network architecture did not change until the 2017 refresh.
+- **Model year.** Toyota's 2014–2015 E170 publications are used for the 2016 car, the last year of the same body. The 2016 network is assumed to match them; it has not been checked against 2016-specific manuals.
 - **Configuration.** The default build is a base LE (key start, Entune Audio, no smart key). Presets add the Driver Convenience Package and the LE Eco engine. 2016 LE models do not have Toyota Safety Sense, so its radar/camera frames are excluded.
-- **CAN IDs.** Toyota does not publish its message list. IDs come from openpilot's 2017 Corolla fingerprint (same platform). Senders are inferred either from Toyota frame-name prefixes (ENG, VSC, ACN, AVN, ABG, MET, STR) or from which ECU owns the source switch; each row says which.
+- **CAN IDs.** Toyota does not publish its message list. 76 IDs come from openpilot's 2017 Corolla fingerprint — the IDs recorded on that car's bus — with its 19 Toyota Safety Sense and pedal-adapter frames removed; 5 scan-tool request addresses come from openpilot's Corolla firmware query and late-model Toyota address list. A 2016 car may differ by a few frames. Senders are inferred either from Toyota frame-name prefixes (ENG, VSC, ACN, AVN, ABG, MET, STR) or from which ECU owns the source switch; each row says which.
 - **Positions** in the in-car view are approximate and wires are drawn point to point, not along the real harness route.
 - **Timing.** Animations are slowed roughly ten-thousand-fold; a real 8-byte frame takes about a quarter of a millisecond at 500 kbit/s.
 

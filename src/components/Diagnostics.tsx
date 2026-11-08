@@ -3,7 +3,7 @@ import { DLC3_PINS, FAILSAFE, FAULTS, PROBES, DIAG_SOURCES, type FaultId } from 
 import { SectionHead, SourceLinks, Segmented, Pill } from './ui';
 
 const SCAN_ROWS: { who: string; req: string; res: string; basis: string; tone: 'ok' | 'info' | 'neutral' }[] = [
-  { who: 'ECM', req: '0x7E0', res: '0x7E8', basis: 'logged on a Corolla', tone: 'ok' },
+  { who: 'ECM', req: '0x7E0', res: '0x7E8', basis: 'in the 2017 Corolla log', tone: 'ok' },
   { who: 'Skid control ECU', req: '0x7B0', res: '0x7B8', basis: 'Corolla firmware query', tone: 'info' },
   { who: 'Power steering ECU', req: '0x7A1', res: '0x7A9', basis: 'Corolla firmware query', tone: 'info' },
   { who: 'Airbag sensor', req: '0x780', res: '0x788', basis: 'later Toyota list', tone: 'neutral' },
@@ -174,32 +174,34 @@ export function Diagnostics() {
                 A tool on pins 6 and 14 sends a request to one module’s diagnostic ID. Only that module answers, on the request ID + 8;
                 everyone else ignores the exchange.
               </p>
-              <table className="scan__t">
-                <thead>
-                  <tr>
-                    <th scope="col">Module</th>
-                    <th scope="col">Request</th>
-                    <th scope="col">Reply</th>
-                    <th scope="col">Basis</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {SCAN_ROWS.map((r) => (
-                    <tr key={r.req}>
-                      <td>{r.who}</td>
-                      <td>
-                        <code>{r.req}</code>
-                      </td>
-                      <td>
-                        <code>{r.res}</code>
-                      </td>
-                      <td>
-                        <Pill tone={r.tone}>{r.basis}</Pill>
-                      </td>
+              <div className="scan__wrap">
+                <table className="scan__t">
+                  <thead>
+                    <tr>
+                      <th scope="col">Module</th>
+                      <th scope="col">Request</th>
+                      <th scope="col">Reply</th>
+                      <th scope="col">Basis</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {SCAN_ROWS.map((r) => (
+                      <tr key={r.req}>
+                        <td>{r.who}</td>
+                        <td>
+                          <code>{r.req}</code>
+                        </td>
+                        <td>
+                          <code>{r.res}</code>
+                        </td>
+                        <td>
+                          <Pill tone={r.tone}>{r.basis}</Pill>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 

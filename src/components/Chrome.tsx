@@ -92,13 +92,14 @@ export function Sources() {
             <ul className="facts">
               <li>
                 The 2016 Corolla is the last year of the pre-facelift E170 body. Its wiring and network are taken from Toyota’s 2014–2015
-                Corolla service publications, which cover this architecture.
+                Corolla service publications for that body; the 2016 car is assumed to match them, not checked against 2016-specific manuals.
               </li>
               <li>Pins, wire colors and junction connectors come from the electrical wiring diagrams; locations from the parts-location drawings.</li>
               <li>Fail-safe behavior, DTCs and resistance specs come from the repair manual’s CAN communication chapter.</li>
               <li>
-                CAN IDs come from openpilot’s 2017 Corolla fingerprint (same platform). Driver-assist frames that a 2016 LE lacks were
-                removed. Senders are inferred from Toyota frame-name prefixes or from which ECU owns the source switch — badges show which.
+                CAN IDs come from openpilot’s log of a 2017 Corolla (same platform, one year newer), with the driver-assist frames a 2016 LE
+                lacks removed, plus five scan-tool addresses from openpilot’s Toyota lists. Senders are inferred from Toyota frame-name
+                prefixes or from which ECU owns the source switch — badges show which.
               </li>
               <li>The default build is a base LE (key start, Entune Audio). Presets add the Driver Convenience Package and the LE Eco engine.</li>
               <li>Animations are slowed down roughly ten-thousand-fold: a real 8-byte frame lasts about a quarter of a millisecond.</li>

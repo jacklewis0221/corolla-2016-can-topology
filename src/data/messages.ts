@@ -2,11 +2,15 @@ import type { SourceKey } from './sources';
 import type { Option } from './nodes';
 
 /**
- * CAN identifiers observed on an E170 Corolla (openpilot 2017 Corolla fingerprint),
- * with layouts from comma.ai's open-source DBC files. Toyota does not publish its
- * message catalogue; the 2016 LE shares the E170 architecture, so this list is the
- * best public approximation. Sender ECUs are inferred from Toyota's frame-name
- * prefixes (ENG = engine, VSC = skid control, ACN = air conditioning, …).
+ * Toyota does not publish its CAN message catalogue, so this list is assembled from
+ * open-source logs of the same E170 platform:
+ *  - 76 IDs from openpilot's 2017 Corolla fingerprint (every ID recorded on that car's
+ *    bus), minus the 19 Toyota Safety Sense / pedal-adapter frames a 2016 LE lacks;
+ *  - 5 scan-tool request addresses from openpilot's Corolla firmware query (0x7B0, 0x7A1)
+ *    and its late-model Toyota address list (0x780, 0x7C0, 0x7C4).
+ * Signal layouts come from comma.ai's DBC files. Sender ECUs are inferred from Toyota's
+ * frame-name prefixes (ENG = engine, VSC = skid control, ACN = air conditioning, …) or
+ * from wiring; each entry's `basis` says which.
  */
 
 export interface Signal {
@@ -566,6 +570,17 @@ export const MESSAGES: CanMessage[] = [
       { name: 'LOCKED_VIA_KEYFOB', start: 23, len: 1, factor: 1, offset: 0, desc: 'Locked with the key fob.' },
     ],
     sources: [...OPN, 'ewdDoorLock'],
+  },
+  {
+    id: 0x45a,
+    dlc: 8,
+    toyota: 'CGW1N02',
+    sender: null,
+    basis: 'unknown',
+    topic: 'unknown',
+    summary:
+      'Toyota’s reference database names this frame CGW1N02 and lists one field, CGW2REV (a revision byte). CGW is Toyota’s central-gateway prefix, but this car’s repair manual lists no dedicated gateway ECU — only modules with a built-in gateway function — so the sender is not known.',
+    sources: REF,
   },
   // Frames seen on the bus without a public description.
   ...[0x223, 0x351, 0x615, 0x619, 0x61a, 0x621, 0x624, 0x630, 0x635, 0x63c, 0x63d, 0x640, 0x680, 0x6c0].map(

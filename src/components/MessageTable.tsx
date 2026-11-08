@@ -15,6 +15,9 @@ const TOPICS: { k: CanMessage['topic'] | 'all'; label: string }[] = [
   { k: 'unknown', label: 'Undocumented' },
 ];
 
+/** IDs that appear in openpilot’s 2017 Corolla fingerprint log (the rest are scan-tool addresses from other lists). */
+const LOGGED = MESSAGES.filter((m) => m.sources.includes('openpilotFingerprint')).length;
+
 export function MessageTable() {
   const [q, setQ] = useState('');
   const [topic, setTopic] = useState<(typeof TOPICS)[number]['k']>('all');
@@ -41,9 +44,12 @@ export function MessageTable() {
       <div className="container">
         <SectionHead kicker="04 · Message dictionary" title="The conversation, frame by frame" id="msgs-title">
           <p>
-            Toyota does not publish its CAN message list. These {MESSAGES.length} identifiers were logged on an E170 Corolla by the
-            open-source openpilot project; layouts come from comma.ai’s DBC files. Senders marked “Toyota frame name” follow Toyota’s own
-            naming (ENG = engine, VSC = skid control, ACN = A/C, AVN = audio, ABG = airbag, MET = meter, STR = steering).
+            Toyota does not publish its CAN message list, so this one is assembled from open-source logs of the same platform.{' '}
+            {LOGGED} of these {MESSAGES.length} identifiers were recorded on a 2017 Corolla by the openpilot project, with its{' '}
+            {EXCLUDED_TSS_IDS.length} driver-assist and add-on frames removed because a 2016 LE does not have that hardware; the other{' '}
+            {MESSAGES.length - LOGGED} are scan-tool addresses from openpilot’s Toyota lists. A 2016 car may differ by a few frames.
+            Layouts come from comma.ai’s DBC files. Senders marked “Toyota frame name” follow Toyota’s own naming (ENG = engine, VSC =
+            skid control, ACN = A/C, AVN = audio, ABG = airbag, MET = meter, STR = steering).
           </p>
         </SectionHead>
 
