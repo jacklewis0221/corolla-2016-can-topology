@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2016 Toyota Corolla LE — CAN Network Atlas</title>
+    <meta
+      name="description"
+      content="An interactive map of the 2016 Toyota Corolla LE in-vehicle network: CAN V bus, LIN sub-buses, every ECU, sensor, actuator and display, with scenarios, a frame lab and diagnostics."
+    />
+    <meta name="theme-color" content="#0c0f12" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Crect x='1' y='1' width='32' height='32' rx='9' fill='%2313181d'/%3E%3Cpath d='M6 13 C 11 13, 11 21, 17 21 S 23 13, 28 13' fill='none' stroke='%23f0a83c' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M6 21 C 11 21, 11 13, 17 13 S 23 21, 28 21' fill='none' stroke='%23efe9dc' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E"
+    />
+    <script>
+      (function () {
+        try {
+          var light = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+          document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark');
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>This interactive diagram needs JavaScript enabled.</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

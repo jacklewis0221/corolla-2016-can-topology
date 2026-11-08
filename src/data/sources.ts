@@ -1,0 +1,488 @@
+// Every fact in the app points at one or more of these sources.
+// Toyota documents are the 2014–2015 USA/Canada Corolla (E170) service publications,
+// which cover the pre-facelift body that was sold through model-year 2016.
+
+const NCF = 'https://gitlab.com/ToyotaManuals/n00041/-/blob/main/N00041/manual/ncf/contents/';
+const RM = 'https://gitlab.com/ToyotaManuals/n00041/-/blob/main/N00041/manual/repair/contents/';
+const EWD = 'https://toyotamanuals.gitlab.io/n00041/N00041/manual/ewd/contents/system/pdf/';
+const ROUTING = 'https://toyotamanuals.gitlab.io/n00041/N00041/manual/ewd/contents/routing/pdf/';
+
+export interface Source {
+  title: string;
+  publisher: string;
+  url: string;
+  kind: 'toyota' | 'community' | 'reference' | 'press';
+}
+
+export const SOURCES = {
+  ncfMultiplex: {
+    title: 'New Car Features NM30N0U — Multiplex Communication System: General',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000ABMG.html`,
+    kind: 'toyota',
+  },
+  ncfMultiplexDiagram: {
+    title: 'New Car Features NM30N0U — Multiplex Communication System: System Diagram',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000ABMH.html`,
+    kind: 'toyota',
+  },
+  ncfCan: {
+    title: 'New Car Features NM30N0U — CAN Communication System: General',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000ABMM.html`,
+    kind: 'toyota',
+  },
+  ncfCanDiagram: {
+    title: 'New Car Features NM30N0U — CAN Communication System: System Diagram',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000ABMN.html`,
+    kind: 'toyota',
+  },
+  ncfCanDetails: {
+    title: 'New Car Features NM30N0U — CAN Communication System: Details (diagnosis)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000ABMP.html`,
+    kind: 'toyota',
+  },
+  ncfLin: {
+    title: 'New Car Features NM30N0U — LIN Communication System: General',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000ABMI.html`,
+    kind: 'toyota',
+  },
+  ncfLinDiagram: {
+    title: 'New Car Features NM30N0U — LIN Communication System: System Diagram',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000ABMJ.html`,
+    kind: 'toyota',
+  },
+  ncfEngine: {
+    title: 'New Car Features — 2ZR-FE Engine Control (SFI) System',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000A67K.html`,
+    kind: 'toyota',
+  },
+  ncfCvt: {
+    title: 'New Car Features — K313 CVT Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000Y4U.html`,
+    kind: 'toyota',
+  },
+  ncfBrake: {
+    title: 'New Car Features — Brake Control System (ABS / EBD / BA / TRAC / VSC)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000DENP.html`,
+    kind: 'toyota',
+  },
+  ncfVsc: {
+    title: 'New Car Features — Vehicle Stability Control (VSC)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000WV4.html`,
+    kind: 'toyota',
+  },
+  ncfEps: {
+    title: 'New Car Features — Electric Power Steering Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000WVV.html`,
+    kind: 'toyota',
+  },
+  ncfMeter: {
+    title: 'New Car Features — Combination Meter',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000ZQV.html`,
+    kind: 'toyota',
+  },
+  ncfAirbag: {
+    title: 'New Car Features — SRS Airbag Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000FUJD.html`,
+    kind: 'toyota',
+  },
+  ncfOcs: {
+    title: 'New Car Features — Occupant Classification Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000WM5.html`,
+    kind: 'toyota',
+  },
+  ncfCruise: {
+    title: 'New Car Features — Cruise Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000JBW.html`,
+    kind: 'toyota',
+  },
+  ncfAc: {
+    title: 'New Car Features — Air Conditioning Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000ADGC.html`,
+    kind: 'toyota',
+  },
+  ncfAcBus: {
+    title: 'New Car Features — A/C Bus Connector (servo motors)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000ADG0.html`,
+    kind: 'toyota',
+  },
+  ncfPowerWindow: {
+    title: 'New Car Features — Power Window Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000X3S.html`,
+    kind: 'toyota',
+  },
+  ncfTpms: {
+    title: 'New Car Features — Tire Pressure Warning System',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000VG1.html`,
+    kind: 'toyota',
+  },
+  ncfImmobiliser: {
+    title: 'New Car Features — Engine Immobiliser System',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000WWK.html`,
+    kind: 'toyota',
+  },
+  ncfSmartKey: {
+    title: 'New Car Features — Smart Key System',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000WWJ.html`,
+    kind: 'toyota',
+  },
+  ncfDrl: {
+    title: 'New Car Features — Daytime Running Light Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000AELE.html`,
+    kind: 'toyota',
+  },
+  ncfEntry: {
+    title: 'New Car Features — Illuminated Entry Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000V9T.html`,
+    kind: 'toyota',
+  },
+  ncfWireless: {
+    title: 'New Car Features — Wireless Door Lock Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000XJT.html`,
+    kind: 'toyota',
+  },
+  ncfAudio: {
+    title: 'New Car Features — Audio and Visual System',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000TT3.html`,
+    kind: 'toyota',
+  },
+  ncfRearCamera: {
+    title: 'New Car Features — Rear View Monitor Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000TSX.html`,
+    kind: 'toyota',
+  },
+  ncfSteeringSensor: {
+    title: 'New Car Features — Steering Angle Sensor',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000WV7.html`,
+    kind: 'toyota',
+  },
+  ncfValvematic: {
+    title: 'New Car Features — 2ZR-FAE Valvematic Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000VSB.html`,
+    kind: 'toyota',
+  },
+  ncfCharging: {
+    title: 'New Car Features — 2ZR-FAE Charging Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${NCF}NM100000000YWX.html`,
+    kind: 'toyota',
+  },
+  ewdCan: {
+    title: 'Electrical Wiring Diagram EM30N2U — Multiplex Communication System (CAN)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}MPX-CAN.pdf`,
+    kind: 'toyota',
+  },
+  ewdDlc3: {
+    title: 'Electrical Wiring Diagram — Data Link Connector 3',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}DLC3.pdf`,
+    kind: 'toyota',
+  },
+  ewdEngine: {
+    title: 'Electrical Wiring Diagram — Engine Control, CVT, Cruise Control (2ZR-FE)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}ECS-2ZR.pdf`,
+    kind: 'toyota',
+  },
+  ewdEngineEco: {
+    title: 'Electrical Wiring Diagram — Engine Control (2ZR-FAE, LE Eco)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}ECS-2ZRFAE.pdf`,
+    kind: 'toyota',
+  },
+  ewdChargingEco: {
+    title: 'Electrical Wiring Diagram — Charging (2ZR-FAE)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}CS-ICS.pdf`,
+    kind: 'toyota',
+  },
+  ewdBrake: {
+    title: 'Electrical Wiring Diagram — ABS / TRAC / VSC',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}ABS-VSC.pdf`,
+    kind: 'toyota',
+  },
+  ewdEps: {
+    title: 'Electrical Wiring Diagram — EPS',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}EPS.pdf`,
+    kind: 'toyota',
+  },
+  ewdMeter: {
+    title: 'Electrical Wiring Diagram — Combination Meter',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}CM.pdf`,
+    kind: 'toyota',
+  },
+  ewdTurn: {
+    title: 'Electrical Wiring Diagram — Turn Signal and Hazard Warning Light',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}TSHWL.pdf`,
+    kind: 'toyota',
+  },
+  ewdAudio: {
+    title: 'Electrical Wiring Diagram — Audio, Navigation, Rear View Monitor',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}AS.pdf`,
+    kind: 'toyota',
+  },
+  ewdAc: {
+    title: 'Electrical Wiring Diagram — Automatic Air Conditioning',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}AAC.pdf`,
+    kind: 'toyota',
+  },
+  ewdPowerWindow: {
+    title: 'Electrical Wiring Diagram — Power Window',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}PW.pdf`,
+    kind: 'toyota',
+  },
+  ewdSunroof: {
+    title: 'Electrical Wiring Diagram — Sliding Roof',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}SR.pdf`,
+    kind: 'toyota',
+  },
+  ewdDoorLock: {
+    title: 'Electrical Wiring Diagram — Door Lock Control',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}DLC.pdf`,
+    kind: 'toyota',
+  },
+  ewdWireless: {
+    title: 'Electrical Wiring Diagram — Wireless Door Lock Control (w/o Smart Key)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}WDL.pdf`,
+    kind: 'toyota',
+  },
+  ewdImmobiliser: {
+    title: 'Electrical Wiring Diagram — Immobiliser System (w/o Smart Key)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}EIS.pdf`,
+    kind: 'toyota',
+  },
+  ewdSmartKey: {
+    title: 'Electrical Wiring Diagram — Smart Key, Engine Start, Steering Lock',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}ESS.pdf`,
+    kind: 'toyota',
+  },
+  ewdTpms: {
+    title: 'Electrical Wiring Diagram — Tire Pressure Warning System',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}TPWS.pdf`,
+    kind: 'toyota',
+  },
+  ewdSrs: {
+    title: 'Electrical Wiring Diagram — SRS',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}SRS.pdf`,
+    kind: 'toyota',
+  },
+  ewdSeatbelt: {
+    title: 'Electrical Wiring Diagram — Seat Belt Warning',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}SBW.pdf`,
+    kind: 'toyota',
+  },
+  ewdShiftLock: {
+    title: 'Electrical Wiring Diagram — Shift Lock',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}SLS.pdf`,
+    kind: 'toyota',
+  },
+  ewdBackup: {
+    title: 'Electrical Wiring Diagram — Back-Up Light',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}BL.pdf`,
+    kind: 'toyota',
+  },
+  ewdCoolingFan: {
+    title: 'Electrical Wiring Diagram — Cooling Fan',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}CF.pdf`,
+    kind: 'toyota',
+  },
+  ewdInteriorLight: {
+    title: 'Electrical Wiring Diagram — Interior Light',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}IL.pdf`,
+    kind: 'toyota',
+  },
+  ewdKeyReminder: {
+    title: 'Electrical Wiring Diagram — Key Reminder (w/o Smart Key)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${EWD}KR.pdf`,
+    kind: 'toyota',
+  },
+  routingDash: {
+    title: 'EWD Position of Parts — Instrument Panel (sheets 1–3)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${ROUTING}InpaneL-P2.pdf`,
+    kind: 'toyota',
+  },
+  routingEngine: {
+    title: 'EWD Position of Parts — Engine Compartment (2ZR-FE)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${ROUTING}2ZRFEL-P3.pdf`,
+    kind: 'toyota',
+  },
+  routingBody: {
+    title: 'EWD Position of Parts — Body',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${ROUTING}BodyL-P3.pdf`,
+    kind: 'toyota',
+  },
+  rmCanDescription: {
+    title: 'Repair Manual RM30N0U — CAN Communication System: System Description',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009HVR.html`,
+    kind: 'toyota',
+  },
+  rmFailSafe: {
+    title: 'Repair Manual RM30N0U — CAN Communication System: Fail-Safe Chart',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009HVS.html`,
+    kind: 'toyota',
+  },
+  rmDiagnosis: {
+    title: 'Repair Manual RM30N0U — CAN Communication System: Diagnosis System (DTC list)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009HWT.html`,
+    kind: 'toyota',
+  },
+  rmOpenMain: {
+    title: 'Repair Manual RM30N0U — Open in CAN Main Bus Line',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009HWW.html`,
+    kind: 'toyota',
+  },
+  rmShort: {
+    title: 'Repair Manual RM30N0U — Check CAN Bus Lines for Short Circuit',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009HWX.html`,
+    kind: 'toyota',
+  },
+  rmStopEcm: {
+    title: 'Repair Manual RM30N0U — ECM Communication Stop Mode',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009HX5.html`,
+    kind: 'toyota',
+  },
+  rmLinDtc: {
+    title: 'Repair Manual RM30N0U — LIN Communication System: Diagnostic Trouble Code Chart',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009KW2.html`,
+    kind: 'toyota',
+  },
+  rmDoorLin: {
+    title: 'Repair Manual RM30N0U — B2321 D-Door Motor ECU Communication Stop',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009KWF.html`,
+    kind: 'toyota',
+  },
+  rmCertLin: {
+    title: 'Repair Manual RM30N0U — B2785 Communication Malfunction between ECUs Connected by LIN',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009KWB.html`,
+    kind: 'toyota',
+  },
+  opendbc: {
+    title: 'opendbc — _toyota_2017.dbc (community CAN database)',
+    publisher: 'comma.ai',
+    url: 'https://github.com/commaai/opendbc/blob/master/opendbc/dbc/generator/toyota/_toyota_2017.dbc',
+    kind: 'community',
+  },
+  opendbcRef: {
+    title: 'opendbc — toyota_2017_ref_pt.dbc (Toyota frame names)',
+    publisher: 'comma.ai',
+    url: 'https://github.com/commaai/opendbc/blob/master/opendbc/dbc/toyota_2017_ref_pt.dbc',
+    kind: 'community',
+  },
+  opendbcChecksum: {
+    title: 'opendbc — toyotacan.py (toyota_checksum)',
+    publisher: 'comma.ai',
+    url: 'https://github.com/commaai/opendbc/blob/master/opendbc/car/toyota/toyotacan.py',
+    kind: 'community',
+  },
+  openpilotFingerprint: {
+    title: 'openpilot v0.7 — Toyota values.py (2017 Corolla CAN fingerprint)',
+    publisher: 'comma.ai',
+    url: 'https://github.com/commaai/openpilot/blob/v0.7/selfdrive/car/toyota/values.py',
+    kind: 'community',
+  },
+  opendbcNewMc: {
+    title: 'opendbc — toyota_new_mc_pt.dbc (BRAKE_MODULE 0x224, EPS_STATUS 0x262)',
+    publisher: 'comma.ai (open source)',
+    url: 'https://github.com/commaai/opendbc/blob/master/opendbc/dbc/generator/toyota/toyota_new_mc_pt.dbc',
+    kind: 'community',
+  },
+  opendbcFingerprints: {
+    title: 'opendbc — Toyota firmware fingerprints (TOYOTA_COROLLA: engine 0x7E0, ABS 0x7B0, EPS 0x7A1)',
+    publisher: 'comma.ai (open source)',
+    url: 'https://github.com/commaai/opendbc/blob/master/opendbc/car/toyota/fingerprints.py',
+    kind: 'community',
+  },
+  opendbcValues: {
+    title: 'opendbc — Toyota values.py (diagnostic addresses of late-model Toyota ECUs)',
+    publisher: 'comma.ai (open source)',
+    url: 'https://github.com/commaai/opendbc/blob/master/opendbc/car/toyota/values.py',
+    kind: 'community',
+  },
+  tiCan: {
+    title: 'Introduction to the Controller Area Network (CAN), SLOA101B',
+    publisher: 'Texas Instruments',
+    url: 'https://www.ti.com/lit/an/sloa101b/sloa101b.pdf',
+    kind: 'reference',
+  },
+  cssLin: {
+    title: 'LIN Bus Explained — A Simple Intro',
+    publisher: 'CSS Electronics',
+    url: 'https://www.csselectronics.com/pages/lin-bus-protocol-intro-basics',
+    kind: 'reference',
+  },
+  pressroom: {
+    title: '2016 Toyota Corolla is the Biggest Thing in Compact Cars',
+    publisher: 'Toyota USA Newsroom',
+    url: 'https://pressroom.toyota.com/2016-toyota-corolla-debut/',
+    kind: 'press',
+  },
+  edmunds: {
+    title: '2016 Toyota Corolla review',
+    publisher: 'Edmunds',
+    url: 'https://www.edmunds.com/toyota/corolla/2016/review/',
+    kind: 'press',
+  },
+} satisfies Record<string, Source>;
+
+export type SourceKey = keyof typeof SOURCES;

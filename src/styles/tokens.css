@@ -1,0 +1,172 @@
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('../assets/fonts/CabinetGrotesk-500.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('../assets/fonts/CabinetGrotesk-700.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('../assets/fonts/CabinetGrotesk-800.woff2') format('woff2');
+  font-weight: 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../assets/fonts/Satoshi-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../assets/fonts/Satoshi-500.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../assets/fonts/Satoshi-700.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0c0f12;
+  --bg-2: #0f1317;
+  --surface: #13181d;
+  --surface-2: #182027;
+  --surface-3: #1f2932;
+  --border: #253039;
+  --border-strong: #354350;
+  --text: #ece8df;
+  --text-muted: #a0a9b2;
+  --text-faint: #7d8994;
+  --accent: #f0a83c;
+  --accent-strong: #ffbf5c;
+  --accent-soft: rgba(240, 168, 60, 0.14);
+  --accent-ink: #1b1306;
+  --danger: #f06b6b;
+  --danger-soft: rgba(240, 107, 107, 0.14);
+  --ok: #6fd59a;
+
+  --can-h: #f0a83c;
+  --can-l: #efe9dc;
+  --local-h: #ef7d3c;
+  --local-l: #8e979f;
+  --lin: #5ec2e8;
+  --serial: #a993ea;
+  --wire: #7f8a94;
+  --rf: #e98fb6;
+  --video: #7fd49b;
+
+  --d-powertrain: #f08a4b;
+  --d-chassis: #4fc6b6;
+  --d-body: #82a9ea;
+  --d-safety: #ec6874;
+  --d-infotainment: #bb97ea;
+  --d-diagnostic: #a9b3bc;
+
+  --grid-dot: rgba(160, 175, 190, 0.13);
+  --car-line: rgba(200, 210, 220, 0.22);
+  --car-fill: rgba(200, 210, 220, 0.035);
+  --shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.35);
+  --node-fill: #151c22;
+  --node-fill-hi: #1c262e;
+  --scope-bg: #0a0d10;
+
+  --ok-ink: #7fdca6;
+  --info-ink: #6fcbef;
+  --warn-ink: #f4b458;
+  --danger-ink: #ff8a8a;
+
+  --sig-a: #f0a83c;
+  --sig-b: #5ec2e8;
+  --sig-c: #b39cf0;
+  --sig-d: #7fd49b;
+  --sig-e: #ef8fb8;
+  --sig-f: #8fb1ee;
+  --sig-ink: #14110c;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f3f1ec;
+  --bg-2: #eeebe4;
+  --surface: #fbfaf7;
+  --surface-2: #f2efe8;
+  --surface-3: #e8e4dc;
+  --border: #dbd5ca;
+  --border-strong: #c3bcaf;
+  --text: #1a1f24;
+  --text-muted: #4f5963;
+  --text-faint: #5c6670;
+  --accent: #a85f00;
+  --accent-strong: #8f5000;
+  --accent-soft: rgba(184, 110, 0, 0.12);
+  --accent-ink: #fffaf2;
+  --danger: #b83232;
+  --danger-soft: rgba(184, 50, 50, 0.1);
+  --ok: #23874f;
+
+  --can-h: #d18200;
+  --can-l: #3f4a55;
+  --local-h: #cf5a1a;
+  --local-l: #8a939b;
+  --lin: #1b8dbf;
+  --serial: #7457c6;
+  --wire: #7b858f;
+  --rf: #c4497c;
+  --video: #278f52;
+
+  --d-powertrain: #c95f1c;
+  --d-chassis: #158d7e;
+  --d-body: #3a69c0;
+  --d-safety: #c43746;
+  --d-infotainment: #8655c8;
+  --d-diagnostic: #66717b;
+
+  --grid-dot: rgba(60, 70, 80, 0.14);
+  --car-line: rgba(40, 50, 60, 0.28);
+  --car-fill: rgba(40, 50, 60, 0.03);
+  --shadow: 0 24px 60px -28px rgba(40, 30, 10, 0.35), 0 2px 8px rgba(40, 30, 10, 0.08);
+  --node-fill: #fdfcf9;
+  --node-fill-hi: #f6f2ea;
+  --scope-bg: #12161a;
+
+  --ok-ink: #1c6b3e;
+  --info-ink: #0f6690;
+  --warn-ink: #8f5000;
+  --danger-ink: #a82a2a;
+
+  --sig-a: #a35d00;
+  --sig-b: #0e729f;
+  --sig-c: #6a4bc2;
+  --sig-d: #23874f;
+  --sig-e: #b83a70;
+  --sig-f: #3a69c0;
+  --sig-ink: #ffffff;
+}
+
+:root {
+  --font-display: 'Cabinet Grotesk', 'Satoshi', system-ui, sans-serif;
+  --font-body: 'Satoshi', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --r-xl: 26px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --container: 1440px;
+  --gutter: clamp(16px, 3.2vw, 40px);
+}
