@@ -18,11 +18,11 @@ const TOPICS: { k: CanMessage['topic'] | 'all'; label: string }[] = [
 /** IDs that appear in openpilot’s 2017 Corolla fingerprint log (the rest are scan-tool addresses from other lists). */
 const LOGGED = MESSAGES.filter((m) => m.sources.includes('openpilotFingerprint')).length;
 
-export function MessageTable() {
+export function MessageTable({ initialOpen }: { initialOpen?: number }) {
   const [q, setQ] = useState('');
   const [topic, setTopic] = useState<(typeof TOPICS)[number]['k']>('all');
   const [sender, setSender] = useState('all');
-  const [open, setOpen] = useState<number | null>(0x1c4);
+  const [open, setOpen] = useState<number | null>(initialOpen ?? 0x1c4);
 
   const senders = useMemo(() => [...new Set(MESSAGES.map((m) => m.sender).filter(Boolean) as string[])], []);
 
@@ -114,7 +114,7 @@ export function MessageTable() {
                 const isOpen = open === m.id;
                 return (
                   <Fragment key={m.id}>
-                    <tr className={`msg${isOpen ? ' is-open' : ''}`} onClick={() => setOpen(isOpen ? null : m.id)}>
+                    <tr className={`msg${isOpen ? ' is-open' : ''}`} onClick={() => setOpen(isOpen ? null : m.id)} data-msg-row={m.id}>
                       <td>
                         <code className="msg__id">{hex(m.id)}</code>
                       </td>

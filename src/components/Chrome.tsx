@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Moon, Sun } from 'lucide-react';
+import { MonitorCog, Moon, Sun } from 'lucide-react';
 import { SOURCES, type Source } from '../data/sources';
 import { SectionHead } from './ui';
 
@@ -61,6 +61,10 @@ export function TopNav({ theme, onTheme }: { theme: 'dark' | 'light'; onTheme: (
             </button>
           ))}
         </nav>
+        <a className="nav__tool" href="./service-tool.html" data-testid="nav-service-tool">
+          <MonitorCog size={17} aria-hidden="true" />
+          <span className="nav__tool-label">Service console</span>
+        </a>
         <button className="icon-btn" onClick={onTheme} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`} data-testid="theme-toggle">
           {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
         </button>
@@ -76,7 +80,12 @@ const GROUPS: { kind: Source['kind']; title: string; blurb: string }[] = [
     blurb: 'New Car Features, electrical wiring diagrams and repair manual for the 2014–2015 Corolla (E170), mirrored publicly.',
   },
   { kind: 'community', title: 'Open-source CAN databases', blurb: 'comma.ai’s opendbc and openpilot, built from logged Toyota traffic.' },
-  { kind: 'reference', title: 'Protocol references', blurb: 'Physical layer and LIN background.' },
+  { kind: 'reference', title: 'Protocol references', blurb: 'Physical layer, LIN, OBD-II and J2534 background.' },
+  {
+    kind: 'service',
+    title: 'Service, maintenance and tooling',
+    blurb: 'Owner’s manual, maintenance guide, coverage and Toyota’s own dealer tool — used by the service console page.',
+  },
   { kind: 'press', title: 'Model-year and trim details', blurb: 'What a 2016 LE came with, and its exterior dimensions.' },
 ];
 
@@ -85,7 +94,7 @@ export function Sources() {
   return (
     <section className="section section--sources" aria-labelledby="sources-title" id="sources">
       <div className="container">
-        <SectionHead kicker="06 · Sources & method" title="Where every line comes from" id="sources-title" />
+        <SectionHead kicker="07 · Sources & method" title="Where every line comes from" id="sources-title" />
         <div className="method">
           <div className="card method__card">
             <h3 className="card__title">Method and assumptions</h3>
@@ -108,6 +117,11 @@ export function Sources() {
                 illustrative harness route.
               </li>
               <li>Animations are slowed down roughly ten-thousand-fold: a real 8-byte frame lasts about a quarter of a millisecond.</li>
+              <li>
+                The service console page is a design concept. Its vehicles, customers, prices, adapters and live values are invented; its
+                trouble-code checks and specified values come from the repair manual, and its maintenance schedule, tire pressures and oil
+                specification from Toyota’s 2016 maintenance guide and owner’s manual.
+              </li>
               <li>This is an independent educational project, not affiliated with or endorsed by Toyota.</li>
             </ul>
           </div>

@@ -11,7 +11,7 @@ export interface Source {
   title: string;
   publisher: string;
   url: string;
-  kind: 'toyota' | 'community' | 'reference' | 'press';
+  kind: 'toyota' | 'community' | 'reference' | 'press' | 'service';
 }
 
 export const SOURCES = {
@@ -469,6 +469,86 @@ export const SOURCES = {
     title: 'LIN Bus Explained — A Simple Intro',
     publisher: 'CSS Electronics',
     url: 'https://www.csselectronics.com/pages/lin-bus-protocol-intro-basics',
+    kind: 'reference',
+  },
+  // ── Service console page: repair-manual procedures used for the guided fixes ──
+  rmStopSkid: {
+    title: 'Repair Manual RM30N0U — Brake Actuator (Skid Control ECU) Communication Stop Mode',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009HX1.html`,
+    kind: 'toyota',
+  },
+  rmP0300: {
+    title: 'Repair Manual RM30N0U — P0300–P0304 Random / Multiple Cylinder Misfire Detected (2ZR-FE)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009IHP.html`,
+    kind: 'toyota',
+  },
+  rmP0171: {
+    title: 'Repair Manual RM30N0U — P0171 / P0172 System Too Lean / Too Rich (2ZR-FE)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009IFX.html`,
+    kind: 'toyota',
+  },
+  rmC1241: {
+    title: 'Repair Manual RM30N0U — C1241 Low Power Supply Voltage Malfunction (VSC)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009JFM.html`,
+    kind: 'toyota',
+  },
+  rmC2121: {
+    title: 'Repair Manual RM30N0U — C2121–C2124 No Signal from Transmitter ID1–ID4 (tire pressure warning)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM100000000A4N0.html`,
+    kind: 'toyota',
+  },
+  rmB1423: {
+    title: 'Repair Manual RM30N0U — B1423/23 Pressure Sensor Circuit (automatic A/C)',
+    publisher: 'Toyota (service publication mirror)',
+    url: `${RM}RM1000000009Q0Q.html`,
+    kind: 'toyota',
+  },
+  // ── Service console page: maintenance, coverage and tooling ──
+  maintGuide: {
+    title: '2016 Corolla Warranty & Maintenance Guide — maintenance intervals and warranty terms',
+    publisher: 'Toyota',
+    url: 'https://assets.sia.toyota.com/publications/en/omms-s/T-MMS-16Corolla/pdf/T-MMS-16Corolla.pdf',
+    kind: 'service',
+  },
+  ownersManual: {
+    title: '2016 Corolla Owner’s Manual (OM12J84U) — tire pressures, oil capacity, warning lights',
+    publisher: 'Toyota',
+    url: 'https://assets.sia.toyota.com/publications/en/om-s/OM12J84U/pdf/OM12J84U.pdf',
+    kind: 'service',
+  },
+  toyotaCare: {
+    title: 'What does ToyotaCare cover? (2 years / 25,000 miles of scheduled maintenance)',
+    publisher: 'Toyota Support',
+    url: 'https://support.toyota.com/s/article/What-does-ToyotaCare-7581?language=en_US',
+    kind: 'service',
+  },
+  toyotaPlans: {
+    title: 'Toyota maintenance plans',
+    publisher: 'Toyota',
+    url: 'https://www.toyota.com/maintenance-plans/',
+    kind: 'service',
+  },
+  techstream: {
+    title: 'Techstream Lite flyer — what Toyota’s dealer diagnostic software does',
+    publisher: 'Toyota Technical Information System',
+    url: 'https://techinfo.toyota.com/techInfoPortal/staticcontent/en/techinfo/html/prelogin/docs/tsliteflyertinfo.pdf',
+    kind: 'service',
+  },
+  obdPids: {
+    title: 'OBD-II PIDs — SAE J1979 service 01 formulas, request 0x7DF / responses 0x7E8–0x7EF',
+    publisher: 'Wikipedia',
+    url: 'https://en.wikipedia.org/wiki/OBD-II_PIDs',
+    kind: 'reference',
+  },
+  j2534: {
+    title: 'PassThruIoctl — SAE J2534 READ_VBATT reads battery voltage on OBD-II pin 16',
+    publisher: 'Quantex Lab',
+    url: 'https://quantexlab.com/en/develop/j2534/pt_ioctl.html',
     kind: 'reference',
   },
   pressroom: {
