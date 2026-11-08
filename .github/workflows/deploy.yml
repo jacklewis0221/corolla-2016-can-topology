@@ -1,8 +1,7 @@
 name: Deploy to GitHub Pages
 
-# Builds the static site and publishes dist/ to GitHub Pages.
-# GitHub Pages on a free plan needs a public repository; on a private repository
-# this workflow still builds (useful as a CI check) and deploys only when Pages is enabled.
+# Builds the static site and publishes dist/ to GitHub Pages on every push to main.
+# Live site: https://jacklewis0221.github.io/corolla-2016-can-topology/
 
 on:
   push:
@@ -42,4 +41,3 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
-        continue-on-error: true

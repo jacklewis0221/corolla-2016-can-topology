@@ -2,6 +2,8 @@
 
 An interactive, presentation-ready map of the in-vehicle network in a 2016 Toyota Corolla LE (E170): the CAN "V bus", its junction connectors and terminators, every ECU on the bus, the LIN sub-buses and serial links hanging off the gateways, and the sensors, switches, actuators and displays wired to each module.
 
+**Live site: [jacklewis0221.github.io/corolla-2016-can-topology](https://jacklewis0221.github.io/corolla-2016-can-topology/)**
+
 It is a static React site. There is no backend, no storage and no tracking — `npm run build` produces a folder you can host anywhere.
 
 ![Network view](docs/network.png)
@@ -52,7 +54,7 @@ The build uses relative asset paths (`base: './'`), so `dist/` works from any su
 
 ## Deploy
 
-- **GitHub Pages:** `.github/workflows/deploy.yml` builds and publishes `dist/` on every push to `main`. Enable Pages with "GitHub Actions" as the source (a free plan needs the repository to be public).
+- **GitHub Pages:** `.github/workflows/deploy.yml` builds and publishes `dist/` to the live site on every push to `main` (Pages source: "GitHub Actions"). For a fork, enable Pages with "GitHub Actions" as the source.
 - **Any static host** (Vercel, Netlify, S3, an internal server): upload `dist/`.
 
 ## Project layout
